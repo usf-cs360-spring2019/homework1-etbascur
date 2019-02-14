@@ -83,64 +83,48 @@
       <!-- todo: modify as necessary (or move visualizations to separate pages) -->
       <h2>Vehicular larceny for December 2018</h2>
       <script>
-
-// set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-  width = 960 - margin.left - margin.right,
-  height = 500 - margin.top - margin.bottom;
-
-// set the ranges
-var x = d3.scaleBand()
-        .range([0, width])
+      var data = [{"salesperson":"Bob","sales":33},{"salesperson":"Robin","sales":12},{"salesperson":"Anne","sales":41},{"salesperson":"Mark","sales":16},{"salesperson":"Joe","sales":59},{"salesperson":"Eve","sales":38},{"salesperson":"Karen","sales":21},{"salesperson":"Kirsty","sales":25},{"salesperson":"Chris","sales":30},{"salesperson":"Lisa","sales":47},{"salesperson":"Tom","sales":5},{"salesperson":"Stacy","sales":20},{"salesperson":"Charles","sales":13},{"salesperson":"Mary","sales":29}];
+      var margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+      // set the ranges
+      var y = d3.scaleBand()
+        .range([height, 0])
         .padding(0.1);
-var y = d3.scaleLinear()
-        .range([height, 0]);
-
-// append the svg object to the body of the page
-// append a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select("body").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-.append("g")
-  .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
-
-// get the data
-d3.csv("sales.csv", function(error, data) {
-if (error) throw error;
-
-// format the data
-data.forEach(function(d) {
-  d.sales = +d.sales;
-});
-
-// Scale the range of the data in the domains
-x.domain(data.map(function(d) { return d.salesperson; }));
-y.domain([0, d3.max(data, function(d) { return d.sales; })]);
-
-// append the rectangles for the bar chart
-svg.selectAll(".bar")
-    .data(data)
-  .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", function(d) { return x(d.salesperson); })
-    .attr("width", x.bandwidth())
-    .attr("y", function(d) { return y(d.sales); })
-    .attr("height", function(d) { return height - y(d.sales); });
-
-// add the x Axis
-svg.append("g")
+      var x = d3.scaleLinear()
+        .range([0, width]);
+      // append the svg object to the body of the page
+      // append a 'group' element to 'svg'
+      // moves the 'group' element to the top left margin
+      var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      // format the data
+      data.forEach(function(d) {
+      d.sales = +d.sales;});
+      // Scale the range of the data in the domains
+      x.domain([0, d3.max(data, function(d){ return d.sales; })])
+      y.domain(data.map(function(d) { return d.salesperson; }));
+      //y.domain([0, d3.max(data, function(d) { return d.sales; })]);
+      // append the rectangles for the bar chart
+      svg.selectAll(".bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "bar")
+      //.attr("x", function(d) { return x(d.sales); })
+      .attr("width", function(d) {return x(d.sales); } )
+      .attr("y", function(d) { return y(d.salesperson); })
+      .attr("height", y.bandwidth());
+      // add the x Axis
+      svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
-
-// add the y Axis
-svg.append("g")
+    // add the y Axis
+    svg.append("g")
     .call(d3.axisLeft(y));
-
-});
-
-</script>
+  </script>
       <svg width="100%" height="400" style="background-color: whitesmoke; border: 1px solid black;">
 
 
@@ -173,7 +157,7 @@ svg.append("g")
   <section class="section">
     <div class="container content">
       <!-- todo: modify as necessary (or move visualizations to separate pages) -->
-      <h2>Visualization 2</h2>
+      <h2>Vehicular Larceny By neighborhood</h2>
 
       <svg width="100%" height="400" style="background-color: whitesmoke; border: 1px solid black;">
       </svg>
@@ -181,19 +165,20 @@ svg.append("g")
       <h3>Interpretation</h3>
 
       <p>
-        If appropriate, provide a brief discussion of how to interpret this visualization (e.g. how the data is encoded) and how to interact with this visualization. Some of this discussion may not be necessary depending on the legends provided with the visualization.
+        Apparently the Financial District and Mission are the neighborhoods that get the most larceny.
       </p>
 
       <h3>Discussion</h3>
 
       <p>
-        If appropriate, provide a brief discussion of the primary goal and findings of the visualization, any challenges encountered creating the visualization, and any other context as required by the assignment.
+        There is likely a denser population of vehicles in these neighborhoods, it would be good to see
+        percentage of vehicles by neighborhood.
       </p>
 
       <h3>Credit</h3>
 
       <p>
-        If appropriate, provide credit for the dataset, any code used, and design inspirations here. Unsufficient discussion here is a violation of the <a href="/syllabus.html#cheating-policy">academic honesty policy</a> and may result in an F grade for the assignment or the <em>entire</em> course.
+        Data set is from https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783
       </p>
     </div>
   </section>
@@ -201,7 +186,7 @@ svg.append("g")
   <section class="section">
     <div class="container content">
       <!-- todo: modify as necessary (or move visualizations to separate pages) -->
-      <h2>Visualization 3</h2>
+      <h2>Time of day  of vehicular Larceny</h2>
 
       <svg width="100%" height="400" style="background-color: whitesmoke; border: 1px solid black;">
       </svg>
@@ -209,19 +194,21 @@ svg.append("g")
       <h3>Interpretation</h3>
 
       <p>
-        If appropriate, provide a brief discussion of how to interpret this visualization (e.g. how the data is encoded) and how to interact with this visualization. Some of this discussion may not be necessary depending on the legends provided with the visualization.
+        The most incidents of vehicular larceny appear to occur betwwen noon and 6pm,
+        with spikes at noon and 6pm
       </p>
 
       <h3>Discussion</h3>
 
       <p>
-        If appropriate, provide a brief discussion of the primary goal and findings of the visualization, any challenges encountered creating the visualization, and any other context as required by the assignment.
+        It's possible that at these times people head out for lunch (at noon) and home (at 6pm).
+        It could be that these are simply times that people discover their vehicles broken in, thus the high report at these times.
       </p>
 
       <h3>Credit</h3>
 
       <p>
-        If appropriate, provide credit for the dataset, any code used, and design inspirations here. Unsufficient discussion here is a violation of the <a href="/syllabus.html#cheating-policy">academic honesty policy</a> and may result in an F grade for the assignment or the <em>entire</em> course.
+        Data set is from https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783
       </p>
     </div>
   </section>
